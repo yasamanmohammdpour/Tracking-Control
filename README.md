@@ -16,6 +16,13 @@ Run 'main.m' with traj_type = 'circle', you will get the ground truth and tracke
 
 Change traj_type to others to track different trajectories, e.g., traj_type = 'lorenz'.  
 
+# More information
+
+- For more information about the reservoir hyperparameters optimization, you can find from this [GitHub page](https://github.com/Zheng-Meng/Reservoir-Computing-and-Hyperparameter-Optimization).
+- For an introductory example of dynamical system control for start-up, you can find from this [GitHub page](https://github.com/Zheng-Meng/Dynamical-Systems-Control-with-Machine-Learning).
+
+If you have any questions or suggestions, feel free to reach out.
+
 # Citation
 This work is available at [https://www.nature.com/articles/s41467-023-41379-3](https://www.nature.com/articles/s41467-023-41379-3), and can be cited with the followling bibtex entry:
 ```
