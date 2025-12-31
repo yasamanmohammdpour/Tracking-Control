@@ -1,3 +1,5 @@
+# func_reservoir_validate.py
+
 import numpy as np
 from numpy import cos, sin, tanh
 
@@ -15,12 +17,15 @@ def func_reservoir_validate(
     Wout,
     r_end,
     dt,
+    disturbance,
+    measurement_noise,
     plot_movie,
     save_rend,
     failure,
     blur,
     traj_frequency,
 ):
+
     """
     Faithful Python translation of func_reservoir_validate.m
     """

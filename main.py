@@ -37,9 +37,7 @@ from val_and_update import val_and_update
 data_path = PROJECT_ROOT / "save_file" / "all_traj_06282022.mat"
 mat_data = sio.loadmat(data_path)
 
-# NOTE:
-# MATLAB loads variables directly into workspace.
-# Python loads a dict. We pass what we need explicitly.
+# print(mat_data.keys())
 
 # -----------------------------
 # Choose reference trajectory
@@ -64,9 +62,38 @@ traj_type = "circle"
 # -----------------------------
 # Parameters
 # -----------------------------
-time_infor = {
-    "val_length": 200_000
+
+# -----------------------------
+# Extract MATLAB variables
+# -----------------------------
+input_infor = [s[0] for s in mat_data["input_infor"].squeeze()]
+
+res_raw = mat_data["res_infor"]
+res_infor = {
+    "W_in": res_raw["W_in"][0, 0],
+    "res_net": res_raw["res_net"][0, 0],
+    "alpha": float(res_raw["alpha"][0, 0]),
+    "kb": float(res_raw["kb"][0, 0]),
+    "beta": float(res_raw["beta"][0, 0]),
+    "n": int(res_raw["n"][0, 0]),
 }
+
+properties = mat_data["properties"].squeeze()
+dim_in = int(mat_data["dim_in"].squeeze())
+dim_out = int(mat_data["dim_out"].squeeze())
+Wout = mat_data["Wout"]
+dt = float(mat_data["dt"].squeeze())
+
+# time_infor from MAT file, override val_length only
+time_raw = mat_data["time_infor"]
+time_infor = {}
+
+for field in time_raw.dtype.names:
+    time_infor[field] = int(time_raw[field][0, 0])
+
+time_infor["val_length"] = 200_000
+
+
 
 bridge_type = "cubic"
 
@@ -92,16 +119,23 @@ plot_val_and_update = True
 # Run validation + update
 # -----------------------------
 val_and_update(
-    mat_data=mat_data,
     traj_type=traj_type,
-    time_infor=time_infor,
     bridge_type=bridge_type,
-    failure=failure,
+    time_infor=time_infor,
+    input_infor=input_infor,
+    res_infor=res_infor,
+    properties=properties,
+    dim_in=dim_in,
+    dim_out=dim_out,
+    Wout=Wout,
+    dt=dt,
     disturbance=disturbance,
     measurement_noise=measurement_noise,
     plot_movie=plot_movie,
-    blur=blur,
     save_rend=save_rend,
+    failure=failure,
+    blur=blur,
     idx=idx,
     plot_val_and_update=plot_val_and_update,
 )
+

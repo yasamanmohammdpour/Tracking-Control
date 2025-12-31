@@ -1,3 +1,5 @@
+# val_and_update.py
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -5,7 +7,6 @@ from func_reservoir_validate import func_reservoir_validate
 
 
 def val_and_update(
-    mat_data,
     traj_type,
     bridge_type,
     time_infor,
@@ -16,6 +17,8 @@ def val_and_update(
     dim_out,
     Wout,
     dt,
+    disturbance,
+    measurement_noise,
     plot_movie,
     save_rend,
     failure,
@@ -31,15 +34,15 @@ def val_and_update(
     # -----------------------------
     # Validate phase
     # -----------------------------
-    if save_rend == 0:
+    if not save_rend:
         start_info = {
-            "q": 0,
-            "qdt": 0,
-            "q2dt": 0,
-            "tau": 0,
+            "q": np.zeros(2),
+            "qdt": np.zeros(2),
+            "q2dt": np.zeros(2),
+            "tau": np.zeros(2),
         }
 
-        r_end = np.zeros((res_infor["res_net"].shape[0], 1))
+        r_end = np.zeros(res_infor["res_net"].shape[0])
     else:
         start_info = {}
         r_end = None
@@ -76,12 +79,15 @@ def val_and_update(
         Wout=Wout,
         r_end=r_end,
         dt=dt,
+        disturbance=disturbance,
+        measurement_noise=measurement_noise,
         plot_movie=plot_movie,
         save_rend=save_rend,
         failure=failure,
         blur=blur,
         traj_frequency=traj_frequency,
     )
+
 
     # -----------------------------
     # Update phase

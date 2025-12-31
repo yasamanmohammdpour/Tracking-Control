@@ -151,7 +151,7 @@ def func_desired_traj(
     q1 = np.arctan2(y, x) - np.arctan2(l2 * sin(q2), l1 + l2 * cos(q2))
 
     q_control[1:val_length + 1, :] = np.column_stack((q1[:val_length], q2[:val_length]))
-    qdt_control[1:val_length + 1, :] = np.diff(q_control[: val_length + 2], axis=0) / dt
+    qdt_control[1:val_length + 1, :] = np.diff(q_control[: val_length + 1], axis=0) / dt
     q2dt_control[:val_length, :] = np.diff(qdt_control[: val_length + 1], axis=0) / dt
 
     # --------------------------------------------------
