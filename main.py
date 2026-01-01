@@ -42,10 +42,10 @@ mat_data = sio.loadmat(data_path)
 # -----------------------------
 # Choose reference trajectory
 # -----------------------------
-traj_type = "circle"
+# traj_type = "circle"
 # traj_type = "lorenz"
 # traj_type = "mg17"
-# traj_type = "infty"
+traj_type = "infty"
 # traj_type = "fermat"
 # traj_type = "astroid"
 # traj_type = "heart"

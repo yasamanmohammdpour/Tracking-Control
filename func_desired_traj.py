@@ -1,3 +1,5 @@
+# func_desired_traj.py
+
 import numpy as np
 from numpy import sin, cos, pi
 from scipy.io import loadmat
@@ -87,7 +89,10 @@ def func_desired_traj(
         ts = data["ts_train"]
 
         x = normalize_range(ts[: val_length * 2 + 1, 0], -0.5, 0.5)
-        y = normalize_range(ts[: val_length * 2 + 1, 1], -0.5, 0.5)
+
+        # Mackey–Glass is 1D → duplicate or delay
+        y = np.roll(x, 1)
+        y[0] = y[1]
 
     else:
         raise ValueError("Invalid traj_type")

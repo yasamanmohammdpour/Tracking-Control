@@ -1,7 +1,15 @@
+# success_rate.py
+
 import numpy as np
 import scipy.io as sio
 from pathlib import Path
 from datetime import datetime
+import sys
+from pathlib import Path
+from tqdm import tqdm
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+sys.path.append(str(PROJECT_ROOT))
 
 from func_train_val import func_train_val
 
@@ -58,8 +66,8 @@ def success_rate():
     # --------------------------------------------------
     # Main experiment loop
     # --------------------------------------------------
-    for ns, n in enumerate(network_set):
-        for tls, train_t in enumerate(training_length_set):
+    for ns, n in tqdm(enumerate(network_set)):
+        for tls, train_t in tqdm(enumerate(training_length_set)):
 
             rmse_parfor_l = np.zeros(iteration)
             rmse_parfor_c = np.zeros(iteration)
@@ -67,7 +75,7 @@ def success_rate():
             rmse_parfor_i = np.zeros(iteration)
             time_parfor = np.zeros(iteration)
 
-            for repeat_i in range(iteration):
+            for repeat_i in tqdm(range(iteration)):
                 (
                     rmse_l,
                     rmse_c,

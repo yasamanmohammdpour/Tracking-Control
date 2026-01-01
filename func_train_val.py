@@ -1,3 +1,5 @@
+# func_train_val.py
+
 import numpy as np
 import time
 
@@ -20,6 +22,9 @@ def func_train_val(n, train_t, reset_t, noise_level, bias):
     # --------------------------------------------------
     dt = 0.01
     input_infor = ["xy", "qdt"]
+
+    disturbance = 0.0
+    measurement_noise = 0.0
 
     dim_in = len(input_infor) * 4
     dim_out = 2
@@ -144,7 +149,14 @@ def func_train_val(n, train_t, reset_t, noise_level, bias):
     # --------------------------------------------------
     # Validation helper
     # --------------------------------------------------
-    def evaluate(traj_type, r_end):
+    def evaluate(
+        traj_type,
+        r_end,
+        time_infor,
+        disturbance,
+        measurement_noise,
+    ):
+        time_infor = dict(time_infor)   # copy
         time_infor["val_length"] = 150000
 
         start_info = {
@@ -172,6 +184,8 @@ def func_train_val(n, train_t, reset_t, noise_level, bias):
             failure={"type": "none"},
             blur={"blur": 0},
             traj_frequency=75,
+            disturbance = disturbance,
+            measurement_noise = measurement_noise,
         )
 
         data_pred = output["data_pred"]
@@ -185,9 +199,27 @@ def func_train_val(n, train_t, reset_t, noise_level, bias):
     # --------------------------------------------------
     # Evaluate all trajectories
     # --------------------------------------------------
-    rmse_l, r_end = evaluate("lorenz", r_end)
-    rmse_c, r_end = evaluate("circle", r_end)
-    rmse_m, r_end = evaluate("mg17", r_end)
-    rmse_i, r_end = evaluate("infty", r_end)
+    rmse_l, r_end = evaluate(
+        "lorenz",
+        r_end,
+        time_infor,
+        disturbance,
+        measurement_noise,
+    )
+    rmse_c, r_end = evaluate("circle", r_end,
+        time_infor,
+        disturbance,
+        measurement_noise,
+    )
+    rmse_m, r_end = evaluate("mg17", r_end,
+        time_infor,
+        disturbance,
+        measurement_noise,
+    )
+    rmse_i, r_end = evaluate("infty", r_end,
+        time_infor,
+        disturbance,
+        measurement_noise,
+    )
 
     return rmse_l, rmse_c, rmse_m, rmse_i, t_train

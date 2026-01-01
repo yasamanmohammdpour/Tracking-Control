@@ -1,6 +1,7 @@
 import numpy as np
 from numpy import sin, cos, pi
 from scipy.ndimage import gaussian_filter1d
+from tqdm import tqdm
 
 
 def robot_data_generator(time_infor, noise_level, dt, properties):
@@ -48,7 +49,7 @@ def robot_data_generator(time_infor, noise_level, dt, properties):
     # --------------------------------------------------
     # Forward dynamics simulation
     # --------------------------------------------------
-    for t_i in range(time_length - 1):
+    for t_i in tqdm(range(time_length - 1)):
 
         # Reset every section_len steps
         if t_i % section_len == 0:

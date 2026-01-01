@@ -1,3 +1,5 @@
+# func_reservoir_train.py
+
 import numpy as np
 from numpy import tanh
 
