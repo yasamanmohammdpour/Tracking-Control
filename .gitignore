@@ -1,5 +1,4 @@
-/__pycache__/
-/tools/__pycache__/
+__pycache__/
 /read_data/
 /save_file/
 .gitignore
